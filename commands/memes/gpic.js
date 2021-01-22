@@ -29,6 +29,7 @@ module.exports = {
                     message.reply('no images reponded to the call');
                     return;
                 }
+                console.log(res.data.items.length)
                 let url = res.data.items[Math.floor(Math.random() * res.data.items.length)].link
                 message.channel.send(url);
             })

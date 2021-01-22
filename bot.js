@@ -74,16 +74,16 @@ function resolveCommand(msg){
 //      could map all triggers back to the execution for faster runtime
 //      might have issue with duplicate triggers
 function resolveSecret(msg){
-    const tokens = msg.content.trim().toLowerCase().split(/ +/);
+    //const tokens = msg.content.trim().toLowerCase().split(/ +/);
+    text = msg.content.trim().toLowerCase();
     for(response of client.responses){
         for(let i = 0; i < response[1].triggers.length; i++){
-            for(token of tokens){
-                //console.log(token +' =?= '+ response[1].triggers[i].toLowerCase());
-                if(token == response[1].triggers[i].toLowerCase()){
-                    console.log(`Trigger: ${token}`);
-                    response[1].execute(msg, token);
-                }
+            //console.log(token +' =?= '+ response[1].triggers[i].toLowerCase());
+            if(text.includes(response[1].triggers[i].toLowerCase())){
+                console.log(`Trigger: ${response[1].triggers[i].toLowerCase()}`);
+                response[1].execute(msg, response[1].triggers[i].toLowerCase());
             }
+        
         }
     }
 }
