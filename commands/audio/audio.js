@@ -44,7 +44,7 @@ module.exports = {
                 break;
             case 'stop':
                 //let server = servers[message.guild.id];
-                console.log(message.guild.voice.connections);
+                //console.log(message.guild.voice.connections);
                 if(message.client.voice.connections.get(message.member.voice.channel.guild.id)){
                     for(let i = server.queue.length - 1; i>=0; i--){
                         server.queue.splice(i,1);

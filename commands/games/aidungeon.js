@@ -1,12 +1,13 @@
 
 //spawn child process AI Dungeon and send commands to it
-
+const StringDecoder = require('string_decoder').StringDecoder;
+const decoder = new StringDecoder('utf8');
 const { spawn } = require('child_process');
 const { statSync } = require('fs');
 const say = require('../audio/say.js');
 
 let aidProg;
-     
+
 let instructions = 'Type !aid to begin the AI Dungeon session, follow !aid with your AI Dungeon action'
 instructions += "\nAI Dungeon 2 Instructions:"
 instructions += '\n Enter actions starting with a verb ex. "go to the tavern" or "attack the orc."'
@@ -29,23 +30,25 @@ let playAID = (message, args) =>{
     //if there isn't a AI Dungeon started, start one
     if(!aidProg){
         message.channel.send("AI Dungeon is warming up, this could take a minute");
-        aidProg = spawn('py', ['../AIDungeon/play.py'], {encoding:'utf8',cwd: '../AIDungeon/'});
+        aidProg = spawn('py', ['../AIDungeon/play.py'], {cwd: '../AIDungeon/'});
         aidProg.stdout.on('data', (data) => {
-            console.log(data.toString());
-            message.channel.send(data.toString());
+            let str = decoder.write(data);
+            console.log(str);
+            message.channel.send(str);
             if(message.member.voice.channel){
-                say.execute(message,[data.toString()]);
+                say.execute(message,[str]);
             }
-            //aidProg.stdin.write('0\n')
         })
         aidProg.stderr.on('data', (data) =>{
-            //console.log(data.toString());
+            //let str = decoder.write(data);
+            //console.log(str);
         })
         aidProg.on('close', (code) => {
             console.log(`AIDprog closed with ${code} code`);
             aidProg = undefined;
         })
     }else{
+        console.log(`Sent: "${args.join(' ')}"`);
         aidProg.stdin.write(args.join(' '));
         aidProg.stdin.write('\n');
     }
