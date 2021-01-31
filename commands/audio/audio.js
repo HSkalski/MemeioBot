@@ -59,7 +59,7 @@ module.exports = {
             case 'leave':
                 //let server = servers[message.guild.id];
                 server.connection.disconnect();
-                console.log(server.connection);
+                //console.log(server.connection);
                 break;
             default:
                 break;

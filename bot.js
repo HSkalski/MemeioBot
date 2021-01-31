@@ -1,6 +1,6 @@
 
 // TODO: 
-//       AI dungeon command?
+//       AI dungeon command? - done
 //       new brian tts
 //       separate api calls into own folder of files
 //       separate audio handling into its own object
